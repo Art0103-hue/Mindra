@@ -11,7 +11,6 @@ export default function CadastroScreen() {
   const [email, setEmail] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [senha, setSenha] = useState('');
-  const [recorde, setRecorde] = useState(0);
   
   const [erro, setErro] = useState('');
 
@@ -60,11 +59,15 @@ export default function CadastroScreen() {
         nome: nome.trim(),
         email: emailLimpo,
         dataNascimento: dataNascimento.trim(),
+        rotinas: {},
+        atividades: {},
+        projetos: {},
+        recorde: {},
       });
 
       setErro('');
       Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
-      setRecorde(0);
+      
       set
       irParaLogin();
     } catch (error: any) {
