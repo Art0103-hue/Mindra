@@ -51,10 +51,10 @@ export default function LoginScreen() {
       <View style={styles.container}>
         <View/>
 
-          <View style={styles.header}>
-            <Image
-              source={require('../../assets/images/logo-mindra.png')}
-              style={styles.image}
+        <View style={styles.header}>
+          <Image
+            source={require('../../assets/images/logo-mindra.png')}
+            style={styles.image}
           />
 
           <Text style={styles.title}>Mindra</Text>
@@ -121,16 +121,6 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingBottom: 28,
     justifyContent: 'space-between',
-  },
-
-  topHandle: {
-    alignSelf: 'center',
-    width: 120,
-    height: 18,
-    backgroundColor: '#DDE7ED',
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    marginBottom: 10,
   },
 
   header: {

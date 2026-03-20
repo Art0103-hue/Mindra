@@ -18,8 +18,7 @@ export default function EntradaScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View style={styles.topHandle} />
-
+        <View/>
         <View style={styles.header}>
           <Image
             source={require('../../assets/images/logo-mindraf.jpeg')}
@@ -99,16 +98,6 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingBottom: 28,
     justifyContent: 'space-between',
-  },
-
-  topHandle: {
-    alignSelf: 'center',
-    width: 120,
-    height: 18,
-    backgroundColor: '#DDE7ED',
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    marginBottom: 10,
   },
 
   header: {
