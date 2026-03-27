@@ -1,0 +1,55 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Configurações de viewport para mobile */
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* Esconde a barra de rolagem mas mantém o scroll por toque */
+  overflow: auto;
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Esconde scrollbar para Chrome, Safari e Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  /* Esconde a barra de rolagem mas mantém o scroll por toque */
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Previne zoom em inputs no iOS */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* Esconde scrollbar em todos os elementos scrolláveis */
+* {
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Opera */
+}
+
+/* Garante scroll suave por toque em dispositivos móveis */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
