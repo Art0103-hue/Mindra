@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  FlatList,
+  Image,
 } from 'react-native';
 import { useData, Atividade } from './DataContext';
 
@@ -19,38 +19,43 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
   const atividadesPendentes = atividades.filter(a => !a.concluida);
   const atividadesConcluidas = atividades.filter(a => a.concluida);
 
-  const renderAtividade = ({ item }: { item: Atividade }) => (
-    <View style={styles.atividadeItem}>
+  const getCategoriaIcon = (categoria: string) => {
+    const cat = categoria?.toLowerCase() || '';
+    if (cat.includes('trabalho')) return '💻';
+    if (cat.includes('estudo')) return '📚';
+    if (cat.includes('saúde') || cat.includes('saude')) return '💪';
+    if (cat.includes('casa') || cat.includes('lar')) return '🏠';
+    if (cat.includes('exercício') || cat.includes('exercicio')) return '🏋️';
+    return '📊';
+  };
+
+  const renderAtividade = (item: Atividade) => (
+    <View key={item.id} style={styles.atividadeItem}>
+      <View style={styles.atividadeIconSquare}>
+        <Text style={styles.atividadeIconText}>
+          {getCategoriaIcon(item.categoria)}
+        </Text>
+      </View>
       <View style={styles.atividadeInfo}>
         <Text style={[styles.atividadeNome, item.concluida && styles.atividadeConcluida]}>
           {item.nome}
         </Text>
-        <View style={styles.atividadeDetalhes}>
-          <Text style={styles.atividadeCategoria}>{item.categoria}</Text>
-          <Text style={styles.atividadeData}>{item.data}</Text>
-          <Text style={styles.atividadePontos}>{item.pontos} pts</Text>
-        </View>
+        <Text style={styles.atividadePontosTexto}>
+          +{item.pontos} pontos após a realização
+        </Text>
       </View>
-      <View style={styles.atividadeAcoes}>
-        {!item.concluida ? (
-          <TouchableOpacity
-            style={styles.btnConcluir}
-            onPress={() => concluirAtividade(item.id)}
-          >
-            <Text style={styles.btnConcluirText}>✓</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.badgeConcluida}>
-            <Text style={styles.badgeConcluidaText}>Feito</Text>
-          </View>
-        )}
+      {!item.concluida ? (
         <TouchableOpacity
-          style={styles.btnRemover}
-          onPress={() => removerAtividade(item.id)}
+          style={styles.btnCheck}
+          onPress={() => concluirAtividade(item.id)}
         >
-          <Text style={styles.btnRemoverText}>✕</Text>
+          <Text style={styles.btnCheckText}>✓</Text>
         </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={styles.badgeConcluida}>
+          <Text style={styles.badgeConcluidaText}>✓</Text>
+        </View>
+      )}
     </View>
   );
 
@@ -66,35 +71,38 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
         </View>
       </View>
 
-      {/* Atividades do dia */}
-      <View style={styles.cardAtividades}>
-        <Text style={styles.cardTitulo}>Atividades do dia</Text>
-        {atividadesPendentes.length === 0 && atividadesConcluidas.length === 0 ? (
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>Nenhuma atividade adicionada</Text>
-          </View>
-        ) : (
-          <FlatList
-            data={[...atividadesPendentes, ...atividadesConcluidas]}
-            keyExtractor={item => item.id}
-            renderItem={renderAtividade}
-            scrollEnabled={false}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-          />
-        )}
-      </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Card Atividades */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Atividades do dia</Text>
 
-      {/* Texto explicativo */}
-      <Text style={styles.explicativo}>
-        atividades realizadas antes do dia do prazo dão pontos bônus
-      </Text>
+          {atividadesPendentes.length === 0 && atividadesConcluidas.length === 0 ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyText}>Nenhuma atividade adicionada</Text>
+            </View>
+          ) : (
+            <>
+              {atividadesPendentes.map(renderAtividade)}
+              {atividadesConcluidas.map(renderAtividade)}
+            </>
+          )}
+        </View>
 
-      {/* Botão adicionar */}
-      <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar}>
-        <Text style={styles.btnAdicionarText}>
-          Gostaria de adicionar uma atividade a lista
+        {/* Texto explicativo */}
+        <Text style={styles.explicativo}>
+          atividades realizadas antes do dia do prazo dão pontos bônus
         </Text>
-      </TouchableOpacity>
+
+        {/* Botão adicionar */}
+        <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar}>
+          <Text style={styles.btnAdicionarText}>
+            Gostaria de adicionar uma atividade a lista
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 16,
+    paddingBottom: 12,
   },
   pontosBadge: {
     backgroundColor: '#FFFFFF',
@@ -126,24 +134,27 @@ const styles = StyleSheet.create({
   perfilIcon: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
     justifyContent: 'center',
     alignItems: 'center',
   },
   perfilIconText: {
     fontSize: 20,
   },
-  cardAtividades: {
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderWidth: 2,
     borderColor: '#1A3A6E',
-    marginHorizontal: 20,
     padding: 20,
-    minHeight: 200,
+    minHeight: 160,
   },
-  cardTitulo: {
+  cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#1A3A6E',
@@ -160,9 +171,22 @@ const styles = StyleSheet.create({
   },
   atividadeItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8F1FA',
+  },
+  atividadeIconSquare: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: '#1A3A6E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  atividadeIconText: {
+    fontSize: 20,
   },
   atividadeInfo: {
     flex: 1,
@@ -174,96 +198,60 @@ const styles = StyleSheet.create({
   },
   atividadeConcluida: {
     textDecorationLine: 'line-through',
-    color: '#999',
+    color: '#9E9E9E',
   },
-  atividadeDetalhes: {
-    flexDirection: 'row',
-    marginTop: 4,
-    gap: 8,
-  },
-  atividadeCategoria: {
+  atividadePontosTexto: {
     fontSize: 11,
     color: '#6B9FD4',
-    backgroundColor: '#E8F1FA',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 8,
-    overflow: 'hidden',
+    marginTop: 2,
   },
-  atividadeData: {
-    fontSize: 11,
-    color: '#6B9FD4',
-  },
-  atividadePontos: {
-    fontSize: 11,
-    color: '#F5A623',
-    fontWeight: 'bold',
-  },
-  atividadeAcoes: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  btnConcluir: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 12,
-    width: 28,
-    height: 28,
+  btnCheck: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 6,
   },
-  btnConcluirText: {
-    color: '#FFF',
-    fontSize: 14,
+  btnCheckText: {
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: 'bold',
   },
   badgeConcluida: {
-    backgroundColor: '#E8F5E9',
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  badgeConcluidaText: {
-    color: '#4CAF50',
-    fontSize: 11,
-    fontWeight: 'bold',
-  },
-  btnRemover: {
-    backgroundColor: '#FF5252',
-    borderRadius: 12,
-    width: 28,
-    height: 28,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 6,
   },
-  btnRemoverText: {
-    color: '#FFF',
-    fontSize: 12,
+  badgeConcluidaText: {
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: 'bold',
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#E8F1FA',
   },
   explicativo: {
     color: '#B8D4F0',
     fontSize: 13,
     textAlign: 'center',
-    marginTop: 16,
-    marginHorizontal: 30,
+    marginTop: 14,
+    marginHorizontal: 10,
   },
   btnAdicionar: {
     backgroundColor: '#1A3A6E',
     borderRadius: 16,
-    marginHorizontal: 20,
-    marginTop: 20,
-    paddingVertical: 18,
+    marginHorizontal: 10,
+    marginTop: 18,
+    paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   btnAdicionarText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
   },

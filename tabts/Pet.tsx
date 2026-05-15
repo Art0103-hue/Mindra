@@ -1,26 +1,174 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import { useData, PetTipo } from './DataContext';
+
+const petImages: Record<PetTipo, any> = {
+  cachorro: require('../assets/Assets MINDRA/Cachorro.png'),
+  gato: require('../assets/Assets MINDRA/gato.jpeg'),
+  passaro: require('../assets/Assets MINDRA/passaro.jpeg'),
+  peixe: require('../assets/Assets MINDRA/peixe.jpeg'),
+};
+
+const petMensagens: Record<PetTipo, string> = {
+  cachorro: 'Obrigado por voltar mestre, é muito bom ver você aqui... {nome} está feliz!',
+  gato: 'Miau... você voltou. {nome} sentiu sua falta (mas não vai admitir).',
+  passaro: 'Piu piu! {nome} está tão feliz que você veio brincar!',
+  peixe: 'Glub glub... {nome} está nadando de alegria com sua presença!',
+};
 
 export default function Pet() {
+  const { pet, pontos, alimentarPet, brincarPet, acariciarPet } = useData();
+
+  if (!pet.tipo) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Home do animal</Text>
+          <View style={styles.pontosBadge}>
+            <Text style={styles.pontosText}>{pontos} Pontos</Text>
+          </View>
+        </View>
+        <View style={styles.contentCenter}>
+          <Text style={styles.noPetText}>Nenhum pet selecionado</Text>
+        </View>
+      </View>
+    );
+  }
+
+  const petImage = petImages[pet.tipo];
+  const mensagem = petMensagens[pet.tipo].replace('{nome}', pet.nome);
+  const xpProgress = Math.min(pet.xp / 1000, 1);
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.pontosBadge}>
-          <Text style={styles.pontosText}>0 Pontos</Text>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Home do animal</Text>
+          <View style={styles.pontosBadge}>
+            <Text style={styles.pontosText}>{pontos} Pontos</Text>
+          </View>
         </View>
-        <View style={styles.perfilIcon}>
-          <Text style={styles.perfilIconText}>👤</Text>
+
+        {/* XP Progress */}
+        <View style={styles.xpContainer}>
+          <Text style={styles.xpText}>{pet.xp}/1000 xp</Text>
+          <View style={styles.xpBarBg}>
+            <View style={[styles.xpBarFill, { width: `${xpProgress * 100}%` }]} />
+          </View>
         </View>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.pageTitle}>Seu Pet</Text>
-        <Image
-          source={require('../assets/Assets MINDRA/Cachorro.png')}
-          style={styles.petImage}
-          resizeMode="contain"
-        />
-        <Text style={styles.subtitle}>Cuide do seu pet completando atividades!</Text>
-      </View>
+
+        {/* Pet Avatar */}
+        <View style={styles.petAvatarContainer}>
+          <View style={styles.petAvatarCircle}>
+            <Image
+              source={petImage}
+              style={styles.petAvatarImage}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+
+        {/* Speech Bubble */}
+        <View style={styles.speechBubble}>
+          <View style={styles.speechBubbleArrow} />
+          <Text style={styles.speechText}>{mensagem}</Text>
+        </View>
+
+        {/* Stats Card */}
+        <View style={styles.statsCard}>
+          {/* Afetividade */}
+          <View style={styles.statRow}>
+            <View style={styles.statIconContainer}>
+              <Image
+                source={require('../assets/Assets MINDRA/Coração.png')}
+                style={styles.statIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={[styles.statLabel, { color: '#E53935' }]}>Afetividade</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.afetividade}%`, backgroundColor: '#E53935' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#E53935' }]}>{pet.afetividade}%</Text>
+          </View>
+
+          {/* Felicidade */}
+          <View style={styles.statRow}>
+            <View style={styles.statIconContainer}>
+              <Image
+                source={require('../assets/Assets MINDRA/Felicidade.png')}
+                style={styles.statIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={[styles.statLabel, { color: '#F9A825' }]}>Felicidade</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.felicidade}%`, backgroundColor: '#F9A825' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#F9A825' }]}>{pet.felicidade}%</Text>
+          </View>
+
+          {/* Fome */}
+          <View style={styles.statRow}>
+            <View style={styles.statIconContainer}>
+              <Image
+                source={require('../assets/Assets MINDRA/Fome Colorida.png')}
+                style={styles.statIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={[styles.statLabel, { color: '#EF6C00' }]}>Fome</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.fome}%`, backgroundColor: '#EF6C00' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#EF6C00' }]}>{pet.fome}%</Text>
+          </View>
+        </View>
+
+        {/* Action Buttons */}
+        <View style={styles.actionButtons}>
+          <TouchableOpacity style={styles.actionBtn} onPress={brincarPet}>
+            <View style={styles.actionIconCircle}>
+              <Image
+                source={require('../assets/Assets MINDRA/Controle colorado.png')}
+                style={styles.actionIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.actionLabel}>Brincar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionBtn} onPress={alimentarPet}>
+            <View style={styles.actionIconCircle}>
+              <Image
+                source={require('../assets/Assets MINDRA/Fome Colorida.png')}
+                style={styles.actionIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.actionLabel}>Alimentar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionBtn} onPress={acariciarPet}>
+            <View style={styles.actionIconCircle}>
+              <Image
+                source={require('../assets/Assets MINDRA/Coração.png')}
+                style={styles.actionIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.actionLabel}>Acariciar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -28,7 +176,10 @@ export default function Pet() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4CAF50',
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
   header: {
     flexDirection: 'row',
@@ -36,50 +187,181 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 16,
+    paddingBottom: 8,
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
   pontosBadge: {
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
   },
   pontosText: {
-    color: '#3A7BD5',
-    fontSize: 14,
+    color: '#4CAF50',
+    fontSize: 13,
     fontWeight: 'bold',
   },
-  perfilIcon: {
+  xpContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 12,
+  },
+  xpText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  xpBarBg: {
+    height: 12,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  xpBarFill: {
+    height: '100%',
+    backgroundColor: '#2E7D32',
+    borderRadius: 6,
+  },
+  petAvatarContainer: {
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  petAvatarCircle: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    width: 40,
-    height: 40,
+    borderWidth: 3,
+    borderColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
-  perfilIconText: {
-    fontSize: 20,
+  petAvatarImage: {
+    width: 110,
+    height: 110,
   },
-  content: {
+  speechBubble: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    marginHorizontal: 24,
+    padding: 14,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: '#1A3A6E',
+  },
+  speechBubbleArrow: {
+    position: 'absolute',
+    top: -10,
+    left: '50%',
+    marginLeft: -10,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomWidth: 10,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#1A3A6E',
+  },
+  speechText: {
+    fontSize: 13,
+    color: '#1A3A6E',
+    textAlign: 'center',
+    lineHeight: 18,
+    fontStyle: 'italic',
+  },
+  statsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#1A3A6E',
+    marginHorizontal: 20,
+    padding: 18,
+    marginBottom: 16,
+  },
+  statRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  statIconContainer: {
+    width: 28,
+    height: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 6,
+  },
+  statIcon: {
+    width: 24,
+    height: 24,
+  },
+  statLabel: {
+    width: 85,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  statBarBg: {
+    flex: 1,
+    height: 10,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 5,
+    overflow: 'hidden',
+    marginHorizontal: 8,
+  },
+  statBarFill: {
+    height: '100%',
+    borderRadius: 5,
+  },
+  statValue: {
+    width: 40,
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'right',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: 30,
+    marginBottom: 10,
+  },
+  actionBtn: {
+    alignItems: 'center',
+  },
+  actionIconCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderColor: '#1A3A6E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  actionIcon: {
+    width: 32,
+    height: 32,
+  },
+  actionLabel: {
+    fontSize: 12,
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+  contentCenter: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 30,
   },
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  noPetText: {
+    fontSize: 18,
     color: '#FFFFFF',
-    marginBottom: 16,
-  },
-  petImage: {
-    width: 120,
-    height: 120,
-    marginBottom: 16,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#B8D4F0',
-    textAlign: 'center',
+    fontWeight: '600',
   },
 });

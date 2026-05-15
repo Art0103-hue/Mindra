@@ -4,9 +4,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  FlatList,
+  ScrollView,
 } from 'react-native';
-import { useData, Habito } from './DataContext';
+import { useData } from './DataContext';
 
 interface HabitosProps {
   onAdicionar: () => void;
@@ -14,23 +14,6 @@ interface HabitosProps {
 
 export default function Habitos({ onAdicionar }: HabitosProps) {
   const { habitos, pontos, removerHabito } = useData();
-
-  const renderHabito = ({ item }: { item: Habito }) => (
-    <View style={styles.habitoItem}>
-      <View style={styles.habitoInfo}>
-        <Text style={styles.habitoNome}>{item.nome}</Text>
-      </View>
-      <View style={styles.habitoDireita}>
-        <Text style={styles.habitoHorario}>{item.horario}</Text>
-        <TouchableOpacity
-          style={styles.btnRemover}
-          onPress={() => removerHabito(item.id)}
-        >
-          <Text style={styles.btnRemoverText}>✕</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -44,30 +27,43 @@ export default function Habitos({ onAdicionar }: HabitosProps) {
         </View>
       </View>
 
-      {/* Card Hábitos */}
-      <View style={styles.cardHabitos}>
-        <Text style={styles.cardTitulo}>Hábitos atuais:</Text>
-        {habitos.length === 0 ? (
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>Nenhum hábito adicionado</Text>
-          </View>
-        ) : (
-          <FlatList
-            data={habitos}
-            keyExtractor={item => item.id}
-            renderItem={renderHabito}
-            scrollEnabled={false}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-          />
-        )}
-      </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Card Hábitos */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Hábitos atuais:</Text>
 
-      {/* Botão adicionar hábito */}
-      <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar}>
-        <Text style={styles.btnAdicionarText}>
-          Gostaria de adicionar hábito novo?
-        </Text>
-      </TouchableOpacity>
+          {habitos.length === 0 ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyText}>Nenhum hábito adicionado</Text>
+            </View>
+          ) : (
+            habitos.map((habito) => (
+              <View key={habito.id} style={styles.habitoItem}>
+                <Text style={styles.habitoNome}>{habito.nome}</Text>
+                <View style={styles.habitoDireita}>
+                  <Text style={styles.habitoHorario}>{habito.horario}</Text>
+                  <TouchableOpacity
+                    style={styles.btnRemover}
+                    onPress={() => removerHabito(habito.id)}
+                  >
+                    <Text style={styles.btnRemoverText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))
+          )}
+        </View>
+
+        {/* Botão adicionar hábito */}
+        <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar}>
+          <Text style={styles.btnAdicionarText}>
+            Gostaria de adicionar hábito novo?
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 16,
+    paddingBottom: 12,
   },
   pontosBadge: {
     backgroundColor: '#FFFFFF',
@@ -99,24 +95,27 @@ const styles = StyleSheet.create({
   perfilIcon: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
     justifyContent: 'center',
     alignItems: 'center',
   },
   perfilIconText: {
     fontSize: 20,
   },
-  cardHabitos: {
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderWidth: 2,
     borderColor: '#1A3A6E',
-    marginHorizontal: 20,
     padding: 20,
     minHeight: 200,
   },
-  cardTitulo: {
+  cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#1A3A6E',
@@ -136,14 +135,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 10,
-  },
-  habitoInfo: {
-    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8F1FA',
   },
   habitoNome: {
     fontSize: 15,
     fontWeight: '500',
-    color: '#6B9FD4',
+    color: '#1A3A6E',
+    flex: 1,
   },
   habitoDireita: {
     flexDirection: 'row',
@@ -153,13 +152,13 @@ const styles = StyleSheet.create({
   habitoHorario: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#1A3A6E',
+    color: '#6B9FD4',
   },
   btnRemover: {
     backgroundColor: '#FF5252',
     borderRadius: 12,
-    width: 24,
-    height: 24,
+    width: 26,
+    height: 26,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -168,22 +167,18 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
   },
-  separator: {
-    height: 1,
-    backgroundColor: '#E8F1FA',
-  },
   btnAdicionar: {
     backgroundColor: '#1A3A6E',
     borderRadius: 16,
-    marginHorizontal: 20,
-    marginTop: 20,
-    paddingVertical: 18,
+    marginHorizontal: 10,
+    marginTop: 18,
+    paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   btnAdicionarText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
   },
