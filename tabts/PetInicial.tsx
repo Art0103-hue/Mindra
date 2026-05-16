@@ -113,9 +113,9 @@ export default function PetInicial({ onSelecionar }: PetInicialProps) {
           {/* Nome input section */}
           {mostrarNomeInput && (
             <View style={styles.nomeContainer}>
-              <TouchableOpacity style={styles.btnNomeGreen} onPress={() => {}}>
+              <View style={styles.btnNomeGreen}>
                 <Text style={styles.btnNomeGreenText}>Dê um nome a ele/ela</Text>
-              </TouchableOpacity>
+              </View>
               <TextInput
                 style={styles.nomeInput}
                 placeholder="Nome do pet..."
@@ -134,7 +134,13 @@ export default function PetInicial({ onSelecionar }: PetInicialProps) {
             ]}
             onPress={handleConfirmar}
             disabled={!petSelecionado || !petNome.trim()}
+            activeOpacity={0.7}
           >
+            <Image
+              source={require('../assets/Assets MINDRA/Cerebro.png')}
+              style={styles.btnPattern}
+              resizeMode="repeat"
+            />
             <Text style={styles.btnSelecionarText}>Selecionar</Text>
           </TouchableOpacity>
         </View>
@@ -146,7 +152,7 @@ export default function PetInicial({ onSelecionar }: PetInicialProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#388E3C',
+    backgroundColor: '#008060',
   },
   scrollContent: {
     flexGrow: 1,
@@ -175,8 +181,8 @@ const styles = StyleSheet.create({
   },
   petCard: {
     width: '47%',
-    backgroundColor: '#F5F9FF',
-    borderRadius: 14,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
     borderWidth: 2,
     borderColor: '#1A3A6E',
     padding: 10,
@@ -217,9 +223,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnNomeGreen: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#00BFA5',
     borderRadius: 12,
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 24,
     marginBottom: 10,
   },
@@ -229,7 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   nomeInput: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#D3D3D3',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -243,14 +249,25 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 16,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 4,
+    overflow: 'hidden',
+    position: 'relative',
   },
   btnSelecionarDisabled: {
     backgroundColor: '#9E9E9E',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnSelecionarText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    zIndex: 1,
   },
 });

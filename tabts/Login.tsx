@@ -55,7 +55,7 @@ export default function Login({ onLogin, onIrCadastro }: LoginProps) {
           <Text style={styles.logoText}>MINDRA</Text>
         </View>
 
-        {/* Card de Login - NO border */}
+        {/* Card de Login */}
         <View style={styles.card}>
           <TextInput
             style={styles.input}
@@ -76,7 +76,12 @@ export default function Login({ onLogin, onIrCadastro }: LoginProps) {
             secureTextEntry
           />
 
-          <TouchableOpacity style={styles.btnEntrar} onPress={handleEntrar}>
+          <TouchableOpacity style={styles.btnEntrar} onPress={handleEntrar} activeOpacity={0.7}>
+            <Image
+              source={require('../assets/Assets MINDRA/Cerebro.png')}
+              style={styles.btnPattern}
+              resizeMode="repeat"
+            />
             <Text style={styles.btnEntrarText}>Entrar</Text>
           </TouchableOpacity>
         </View>
@@ -115,21 +120,23 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   logoText: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    letterSpacing: 5,
+    letterSpacing: 6,
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 24,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#1A3A6E',
     padding: 24,
     width: '100%',
     maxWidth: 380,
   },
   input: {
     backgroundColor: '#D3D3D3',
-    borderRadius: 16,
+    borderRadius: 12,
     paddingHorizontal: 16,
     height: 56,
     fontSize: 15,
@@ -137,17 +144,27 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   btnEntrar: {
-    backgroundColor: '#4169E1',
+    backgroundColor: '#1A3A6E',
     borderRadius: 16,
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 16,
+    marginTop: 8,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnEntrarText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    zIndex: 1,
   },
   cadastroContainer: {
     flexDirection: 'row',
@@ -159,7 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   cadastroLink: {
-    color: '#FFFFFF',
+    color: '#90CAF9',
     fontSize: 15,
     fontWeight: 'bold',
     textDecorationLine: 'underline',

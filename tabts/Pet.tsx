@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData, PetTipo } from './DataContext';
 
 const petImages: Record<PetTipo, any> = {
@@ -85,78 +86,60 @@ export default function Pet() {
         <View style={styles.statsCard}>
           {/* Afetividade */}
           <View style={styles.statRow}>
-            <Image
-              source={require('../assets/Assets MINDRA/Coração.png')}
-              style={styles.statIcon}
-              resizeMode="contain"
-            />
-            <Text style={[styles.statLabel, { color: '#E53935' }]}>Afetividade</Text>
-            <View style={styles.statBarBg}>
-              <View style={[styles.statBarFill, { width: `${pet.afetividade}%`, backgroundColor: '#E53935' }]} />
+            <View style={[styles.statIconCircle, { backgroundColor: '#FFE4E1' }]}>
+              <Ionicons name="heart" size={16} color="#CD5C5C" />
             </View>
-            <Text style={[styles.statValue, { color: '#E53935' }]}>{pet.afetividade}%</Text>
+            <Text style={[styles.statLabel, { color: '#CD5C5C' }]}>Afetividade</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.afetividade}%`, backgroundColor: '#CD5C5C' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#CD5C5C' }]}>{pet.afetividade}%</Text>
           </View>
 
           {/* Felicidade */}
           <View style={styles.statRow}>
-            <Image
-              source={require('../assets/Assets MINDRA/Felicidade.png')}
-              style={styles.statIcon}
-              resizeMode="contain"
-            />
-            <Text style={[styles.statLabel, { color: '#F9A825' }]}>Felicidade</Text>
-            <View style={styles.statBarBg}>
-              <View style={[styles.statBarFill, { width: `${pet.felicidade}%`, backgroundColor: '#F9A825' }]} />
+            <View style={[styles.statIconCircle, { backgroundColor: '#FFF9C4' }]}>
+              <MaterialCommunityIcons name="emoticon-happy" size={16} color="#FFD700" />
             </View>
-            <Text style={[styles.statValue, { color: '#F9A825' }]}>{pet.felicidade}%</Text>
+            <Text style={[styles.statLabel, { color: '#FFD700' }]}>Felicidade</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.felicidade}%`, backgroundColor: '#FFD700' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#FFD700' }]}>{pet.felicidade}%</Text>
           </View>
 
           {/* Fome */}
           <View style={styles.statRow}>
-            <Image
-              source={require('../assets/Assets MINDRA/Fome Colorida.png')}
-              style={styles.statIcon}
-              resizeMode="contain"
-            />
-            <Text style={[styles.statLabel, { color: '#EF6C00' }]}>Fome</Text>
-            <View style={styles.statBarBg}>
-              <View style={[styles.statBarFill, { width: `${pet.fome}%`, backgroundColor: '#EF6C00' }]} />
+            <View style={[styles.statIconCircle, { backgroundColor: '#FFE0B2' }]}>
+              <MaterialCommunityIcons name="food" size={16} color="#FF8C00" />
             </View>
-            <Text style={[styles.statValue, { color: '#EF6C00' }]}>{pet.fome}%</Text>
+            <Text style={[styles.statLabel, { color: '#FF8C00' }]}>Fome</Text>
+            <View style={styles.statBarBg}>
+              <View style={[styles.statBarFill, { width: `${pet.fome}%`, backgroundColor: '#FF8C00' }]} />
+            </View>
+            <Text style={[styles.statValue, { color: '#FF8C00' }]}>{pet.fome}%</Text>
           </View>
         </View>
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.actionBtn} onPress={brincarPet}>
-            <View style={styles.actionIconCircle}>
-              <Image
-                source={require('../assets/Assets MINDRA/Controle colorado.png')}
-                style={styles.actionIcon}
-                resizeMode="contain"
-              />
+          <TouchableOpacity style={styles.actionBtn} onPress={brincarPet} activeOpacity={0.7}>
+            <View style={styles.actionIconSquare}>
+              <MaterialCommunityIcons name="gamepad-variant" size={24} color="#000000" />
             </View>
             <Text style={styles.actionLabel}>Brincar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionBtn} onPress={alimentarPet}>
-            <View style={styles.actionIconCircle}>
-              <Image
-                source={require('../assets/Assets MINDRA/Fome Colorida.png')}
-                style={styles.actionIcon}
-                resizeMode="contain"
-              />
+          <TouchableOpacity style={styles.actionBtn} onPress={alimentarPet} activeOpacity={0.7}>
+            <View style={styles.actionIconSquare}>
+              <MaterialCommunityIcons name="food" size={24} color="#000000" />
             </View>
             <Text style={styles.actionLabel}>Alimentar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionBtn} onPress={acariciarPet}>
-            <View style={styles.actionIconCircle}>
-              <Image
-                source={require('../assets/Assets MINDRA/Coração.png')}
-                style={styles.actionIcon}
-                resizeMode="contain"
-              />
+          <TouchableOpacity style={styles.actionBtn} onPress={acariciarPet} activeOpacity={0.7}>
+            <View style={styles.actionIconSquare}>
+              <Ionicons name="heart" size={24} color="#000000" />
             </View>
             <Text style={styles.actionLabel}>Acariciar</Text>
           </TouchableOpacity>
@@ -169,7 +152,7 @@ export default function Pet() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#009688',
+    backgroundColor: '#008060',
   },
   scrollContent: {
     paddingBottom: 20,
@@ -183,7 +166,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
@@ -194,7 +177,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   pontosText: {
-    color: '#009688',
+    color: '#4169E1',
     fontSize: 13,
     fontWeight: 'bold',
   },
@@ -228,8 +211,8 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 70,
     backgroundColor: '#FFFFFF',
-    borderWidth: 3,
-    borderColor: '#1565C0',
+    borderWidth: 4,
+    borderColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -245,11 +228,11 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 16,
     borderWidth: 2,
-    borderColor: '#1565C0',
+    borderColor: '#1A3A6E',
   },
   speechText: {
     fontSize: 13,
-    color: '#1565C0',
+    color: '#1A3A6E',
     textAlign: 'center',
     lineHeight: 18,
     fontStyle: 'italic',
@@ -258,7 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: '#1565C0',
+    borderColor: '#1A3A6E',
     marginHorizontal: 20,
     padding: 18,
     marginBottom: 16,
@@ -268,10 +251,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  statIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 6,
+  statIconCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
   },
   statLabel: {
     width: 85,
@@ -305,20 +291,16 @@ const styles = StyleSheet.create({
   actionBtn: {
     alignItems: 'center',
   },
-  actionIconCircle: {
+  actionIconSquare: {
     width: 56,
     height: 56,
-    borderRadius: 28,
+    borderRadius: 14,
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
-    borderColor: '#1565C0',
+    borderColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 4,
-  },
-  actionIcon: {
-    width: 32,
-    height: 32,
   },
   actionLabel: {
     fontSize: 12,

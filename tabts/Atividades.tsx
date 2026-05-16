@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData, Atividade } from './DataContext';
@@ -75,7 +76,7 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
           <Text style={styles.pontosText}>{pontos} Pontos</Text>
         </View>
         <View style={styles.perfilIcon}>
-          <Ionicons name="person" size={22} color="#4169E1" />
+          <Ionicons name="person-circle" size={28} color="#4169E1" />
         </View>
       </View>
 
@@ -105,7 +106,12 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
         </Text>
 
         {/* Botão adicionar */}
-        <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar}>
+        <TouchableOpacity style={styles.btnAdicionar} onPress={onAdicionar} activeOpacity={0.7}>
+          <Image
+            source={require('../assets/Assets MINDRA/Cerebro.png')}
+            style={styles.btnPattern}
+            resizeMode="repeat"
+          />
           <Text style={styles.btnAdicionarText}>
             Gostaria de adicionar uma atividade a lista
           </Text>
@@ -141,9 +147,9 @@ const styles = StyleSheet.create({
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    width: 42,
-    height: 42,
+    borderRadius: 12,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
   btnCheck: {
     width: 34,
     height: 34,
-    borderRadius: 8,
+    borderRadius: 17,
     backgroundColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
@@ -219,7 +225,7 @@ const styles = StyleSheet.create({
   badgeConcluida: {
     width: 34,
     height: 34,
-    borderRadius: 8,
+    borderRadius: 17,
     backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
@@ -240,11 +246,21 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnAdicionarText: {
     color: '#FFFFFF',
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
+    zIndex: 1,
   },
 });

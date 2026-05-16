@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData } from './DataContext';
@@ -15,7 +16,7 @@ const getCategoryIcon = (categoria: string): React.ReactNode => {
     return <MaterialCommunityIcons name="monitor" size={20} color="#FFFFFF" />;
   }
   if (cat.includes('estudo')) {
-    return <MaterialCommunityIcons name="chart-bar" size={20} color="#FFFFFF" />;
+    return <MaterialCommunityIcons name="chart-line" size={20} color="#FFFFFF" />;
   }
   if (cat.includes('leitura')) {
     return <MaterialCommunityIcons name="book-open-variant" size={20} color="#FFFFFF" />;
@@ -26,7 +27,7 @@ const getCategoryIcon = (categoria: string): React.ReactNode => {
   if (cat.includes('saúde') || cat.includes('saude')) {
     return <MaterialCommunityIcons name="heart-pulse" size={20} color="#FFFFFF" />;
   }
-  return <MaterialCommunityIcons name="chart-bar" size={20} color="#FFFFFF" />;
+  return <MaterialCommunityIcons name="chart-line" size={20} color="#FFFFFF" />;
 };
 
 export default function Home() {
@@ -51,7 +52,7 @@ export default function Home() {
           </View>
         </View>
         <View style={styles.perfilIcon}>
-          <Ionicons name="person" size={22} color="#4169E1" />
+          <Ionicons name="person-circle" size={28} color="#4169E1" />
         </View>
       </View>
 
@@ -66,17 +67,10 @@ export default function Home() {
           </Text>
           <View style={styles.progressBarBg}>
             <View style={[styles.progressBarFill, { width: `${Math.max(progressoRotina * 100, 0)}%` }]} />
-            {progressoRotina > 0.15 && (
-              <Text style={styles.progressTextInside}>
-                {concluidosRotina} de atividade de rotina realizadas
-              </Text>
-            )}
           </View>
-          {progressoRotina <= 0.15 && (
-            <Text style={styles.progressLabel}>
-              {concluidosRotina} de {totalRotina} atividades de rotina realizadas
-            </Text>
-          )}
+          <Text style={styles.progressLabel}>
+            {concluidosRotina} de atividade de rotina realizadas
+          </Text>
         </View>
 
         {/* Card: Atividades do dia */}
@@ -138,6 +132,9 @@ export default function Home() {
           )}
         </View>
       </ScrollView>
+
+      {/* Dot pattern overlay */}
+      <View style={styles.dotPattern} pointerEvents="none" />
     </View>
   );
 }
@@ -146,6 +143,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4169E1',
+  },
+  dotPattern: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.04,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   header: {
     flexDirection: 'row',
@@ -175,9 +182,9 @@ const styles = StyleSheet.create({
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    width: 42,
-    height: 42,
+    borderRadius: 12,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -207,30 +214,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   progressBarBg: {
-    height: 14,
+    height: 16,
     backgroundColor: '#E0E0E0',
-    borderRadius: 7,
+    borderRadius: 8,
     overflow: 'hidden',
     marginBottom: 4,
-    justifyContent: 'center',
   },
   progressBarFill: {
     height: '100%',
     backgroundColor: '#1A3A6E',
-    borderRadius: 7,
+    borderRadius: 8,
     position: 'absolute',
     left: 0,
     top: 0,
   },
-  progressTextInside: {
-    fontSize: 8,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: '600',
-  },
   progressLabel: {
     fontSize: 12,
-    color: '#6B9FD4',
+    color: '#1A3A6E',
+    fontWeight: '500',
   },
   emptyText: {
     color: '#999',
@@ -308,8 +309,9 @@ const styles = StyleSheet.create({
   },
   habitoHorario: {
     fontSize: 13,
-    color: '#6B9FD4',
+    color: '#1A3A6E',
     marginRight: 8,
+    fontWeight: '500',
   },
   habitoPontos: {
     fontSize: 12,

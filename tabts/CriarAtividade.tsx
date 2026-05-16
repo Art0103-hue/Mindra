@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
@@ -65,7 +66,7 @@ export default function CriarAtividade({ onVoltar }: CriarAtividadeProps) {
         <View style={styles.card}>
           <Text style={styles.titulo}>Nova atividade?</Text>
 
-          {/* Campo: O que você está pensando? - placeholder only, no label */}
+          {/* Campo: O que você está pensando? */}
           <TextInput
             style={styles.input}
             placeholder="O que você está pensando?"
@@ -105,7 +106,12 @@ export default function CriarAtividade({ onVoltar }: CriarAtividadeProps) {
         </View>
 
         {/* Botão Criar Tarefa */}
-        <TouchableOpacity style={styles.btnCriar} onPress={handleCriar}>
+        <TouchableOpacity style={styles.btnCriar} onPress={handleCriar} activeOpacity={0.7}>
+          <Image
+            source={require('../assets/Assets MINDRA/Cerebro.png')}
+            style={styles.btnPattern}
+            resizeMode="repeat"
+          />
           <Text style={styles.btnCriarText}>Criar tarefa</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -149,7 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#D3D3D3',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   inputDark: {
-    backgroundColor: '#A0A0A0',
+    backgroundColor: '#9E9E9E',
     color: '#FFFFFF',
   },
   inputLarge: {
@@ -179,12 +185,23 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 18,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 24,
     marginHorizontal: 10,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnCriarText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    zIndex: 1,
   },
 });

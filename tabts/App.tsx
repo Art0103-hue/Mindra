@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { DataProvider, useData } from './DataContext';
 import Atividades from './Atividades';
 import CriarAtividade from './CriarAtividade';
@@ -78,20 +78,34 @@ function AppContent() {
   };
 
   const renderTabIcon = (tab: TabName, isActive: boolean) => {
-    const iconColor = isActive ? '#1A3A6E' : '#9E9E9E';
-    const iconSize = 24;
-
-    switch (tab) {
-      case 'home':
-        return <Ionicons name={isActive ? 'home' : 'home-outline'} size={iconSize} color={iconColor} />;
-      case 'atividades':
-        return <MaterialCommunityIcons name={isActive ? 'notebook' : 'notebook-outline'} size={iconSize} color={iconColor} />;
-      case 'habitos':
-        return <Ionicons name={isActive ? 'clipboard' : 'clipboard-outline'} size={iconSize} color={iconColor} />;
-      case 'loja':
-        return <Ionicons name={isActive ? 'cart' : 'cart-outline'} size={iconSize} color={iconColor} />;
-      case 'pet':
-        return <MaterialCommunityIcons name="paw" size={iconSize} color={iconColor} />;
+    if (isActive) {
+      // Active: white icon on blue circle
+      switch (tab) {
+        case 'home':
+          return <MaterialCommunityIcons name="home" size={22} color="#FFFFFF" />;
+        case 'atividades':
+          return <MaterialCommunityIcons name="notebook" size={22} color="#FFFFFF" />;
+        case 'habitos':
+          return <MaterialCommunityIcons name="clipboard-list-outline" size={22} color="#FFFFFF" />;
+        case 'loja':
+          return <MaterialCommunityIcons name="cart" size={22} color="#FFFFFF" />;
+        case 'pet':
+          return <MaterialCommunityIcons name="paw" size={22} color="#FFFFFF" />;
+      }
+    } else {
+      // Inactive: blue icon on white
+      switch (tab) {
+        case 'home':
+          return <MaterialCommunityIcons name="home" size={24} color="#4169E1" />;
+        case 'atividades':
+          return <MaterialCommunityIcons name="notebook" size={24} color="#4169E1" />;
+        case 'habitos':
+          return <MaterialCommunityIcons name="clipboard-list-outline" size={24} color="#4169E1" />;
+        case 'loja':
+          return <MaterialCommunityIcons name="cart" size={24} color="#4169E1" />;
+        case 'pet':
+          return <MaterialCommunityIcons name="paw" size={24} color="#4169E1" />;
+      }
     }
   };
 
@@ -200,12 +214,12 @@ const styles = StyleSheet.create({
   navIconWrap: {
     width: 40,
     height: 40,
-    borderRadius: 12,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   navIconWrapActive: {
-    backgroundColor: '#E3F2FD',
+    backgroundColor: '#4169E1',
   },
   navLabel: {
     fontSize: 10,
@@ -213,7 +227,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navLabelActive: {
-    color: '#1A3A6E',
+    color: '#4169E1',
     fontWeight: 'bold',
   },
 });

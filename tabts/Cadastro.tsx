@@ -66,7 +66,7 @@ export default function Cadastro({ onCadastrar, onIrLogin }: CadastroProps) {
           <Text style={styles.logoText}>MINDRA</Text>
         </View>
 
-        {/* Card de Cadastro - NO border */}
+        {/* Card de Cadastro */}
         <View style={styles.card}>
           <TextInput
             style={styles.input}
@@ -104,7 +104,12 @@ export default function Cadastro({ onCadastrar, onIrLogin }: CadastroProps) {
             secureTextEntry
           />
 
-          <TouchableOpacity style={styles.btnCadastrar} onPress={handleCadastrar}>
+          <TouchableOpacity style={styles.btnCadastrar} onPress={handleCadastrar} activeOpacity={0.7}>
+            <Image
+              source={require('../assets/Assets MINDRA/Cerebro.png')}
+              style={styles.btnPattern}
+              resizeMode="repeat"
+            />
             <Text style={styles.btnCadastrarText}>Cadastrar</Text>
           </TouchableOpacity>
         </View>
@@ -138,19 +143,21 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   logoImage: {
-    width: 70,
-    height: 70,
-    marginBottom: 6,
+    width: 80,
+    height: 80,
+    marginBottom: 8,
   },
   logoText: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    letterSpacing: 5,
+    letterSpacing: 6,
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#1A3A6E',
     padding: 24,
     width: '100%',
     maxWidth: 380,
@@ -159,23 +166,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#D3D3D3',
     borderRadius: 12,
     paddingHorizontal: 16,
-    height: 48,
+    height: 52,
     fontSize: 14,
     color: '#333333',
     marginBottom: 12,
   },
   btnCadastrar: {
-    backgroundColor: '#4169E1',
-    borderRadius: 12,
-    height: 48,
+    backgroundColor: '#1A3A6E',
+    borderRadius: 16,
+    height: 52,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnCadastrarText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    zIndex: 1,
   },
   loginContainer: {
     flexDirection: 'row',
@@ -187,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   loginLink: {
-    color: '#FFFFFF',
+    color: '#90CAF9',
     fontSize: 15,
     fontWeight: 'bold',
     textDecorationLine: 'underline',

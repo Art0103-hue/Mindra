@@ -8,7 +8,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
 interface LojaItem {
@@ -97,7 +97,7 @@ export default function Loja() {
           <Text style={styles.pontosText}>{pontos} Pontos</Text>
         </View>
         <View style={styles.perfilIcon}>
-          <Ionicons name="person" size={22} color="#4169E1" />
+          <Ionicons name="person-circle" size={28} color="#4169E1" />
         </View>
       </View>
 
@@ -141,7 +141,6 @@ export default function Loja() {
             return (
               <View key={item.id} style={styles.itemCard}>
                 <Image source={item.imagem} style={styles.itemImage} resizeMode="contain" />
-                <Text style={styles.itemNome}>{item.nome}</Text>
                 <TouchableOpacity
                   style={[styles.btnComprar, jaComprou && styles.btnComprado]}
                   onPress={() => handleComprar(item)}
@@ -186,9 +185,9 @@ const styles = StyleSheet.create({
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    width: 42,
-    height: 42,
+    borderRadius: 12,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -241,13 +240,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   btnComprarPromo: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2ECC71',
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   btnComprar: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2ECC71',
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 14,
@@ -278,13 +277,6 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 60,
     height: 60,
-    marginBottom: 6,
-  },
-  itemNome: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 6,
-    textAlign: 'center',
+    marginBottom: 8,
   },
 });

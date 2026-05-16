@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
@@ -115,10 +116,8 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
             />
             <TouchableOpacity
               style={[
-                styles.inputHalf,
-                styles.inputDark,
-                indefinido && styles.inputActive,
                 styles.indefinidoBtn,
+                indefinido ? styles.indefinidoBtnActive : styles.indefinidoBtnInactive,
               ]}
               onPress={() => setIndefinido(!indefinido)}
               activeOpacity={0.7}
@@ -131,7 +130,12 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
         </View>
 
         {/* Botão Criar Hábito */}
-        <TouchableOpacity style={styles.btnCriar} onPress={handleCriar}>
+        <TouchableOpacity style={styles.btnCriar} onPress={handleCriar} activeOpacity={0.7}>
+          <Image
+            source={require('../assets/Assets MINDRA/Cerebro.png')}
+            style={styles.btnPattern}
+            resizeMode="repeat"
+          />
           <Text style={styles.btnCriarText}>Criar hábito</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -175,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#D3D3D3',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -188,18 +192,27 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   inputDark: {
-    backgroundColor: '#A0A0A0',
-    justifyContent: 'center',
+    backgroundColor: '#9E9E9E',
+    color: '#FFFFFF',
   },
-  inputActive: {
-    backgroundColor: '#1A3A6E',
+  rowInputs: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 12,
   },
   indefinidoBtn: {
+    flex: 1,
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  indefinidoBtnInactive: {
+    backgroundColor: '#9E9E9E',
+  },
+  indefinidoBtnActive: {
+    backgroundColor: '#1A3A6E',
   },
   indefinidoText: {
     color: '#FFFFFF',
@@ -208,22 +221,28 @@ const styles = StyleSheet.create({
   indefinidoTextActive: {
     fontWeight: 'bold',
   },
-  rowInputs: {
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 12,
-  },
   btnCriar: {
     backgroundColor: '#1A3A6E',
     borderRadius: 16,
     paddingVertical: 18,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 24,
     marginHorizontal: 10,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  btnPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.1,
+    tintColor: '#FFFFFF',
   },
   btnCriarText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    zIndex: 1,
   },
 });
