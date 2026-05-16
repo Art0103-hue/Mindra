@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { DataProvider, useData } from './DataContext';
 import Atividades from './Atividades';
 import CriarAtividade from './CriarAtividade';
@@ -25,7 +26,6 @@ function AppContent() {
   const [atividadesView, setAtividadesView] = useState<AtividadesView>('list');
   const [habitosView, setHabitosView] = useState<HabitosView>('list');
 
-  // Handle login
   const handleLogin = () => {
     if (usuario.petSelecionado) {
       setCurrentScreen('main');
@@ -34,17 +34,14 @@ function AppContent() {
     }
   };
 
-  // Handle cadastro
   const handleCadastro = () => {
     setCurrentScreen('petInicial');
   };
 
-  // Handle pet selection
   const handlePetSelecionado = () => {
     setCurrentScreen('main');
   };
 
-  // Handle logout
   const handleLogout = () => {
     logout();
     setCurrentScreen('login');
@@ -77,6 +74,34 @@ function AppContent() {
         return <Pet />;
       default:
         return <Home />;
+    }
+  };
+
+  const renderTabIcon = (tab: TabName, isActive: boolean) => {
+    const iconColor = isActive ? '#1A3A6E' : '#9E9E9E';
+    const iconSize = 24;
+
+    switch (tab) {
+      case 'home':
+        return <Ionicons name={isActive ? 'home' : 'home-outline'} size={iconSize} color={iconColor} />;
+      case 'atividades':
+        return <MaterialCommunityIcons name={isActive ? 'notebook' : 'notebook-outline'} size={iconSize} color={iconColor} />;
+      case 'habitos':
+        return <Ionicons name={isActive ? 'clipboard' : 'clipboard-outline'} size={iconSize} color={iconColor} />;
+      case 'loja':
+        return <Ionicons name={isActive ? 'cart' : 'cart-outline'} size={iconSize} color={iconColor} />;
+      case 'pet':
+        return <MaterialCommunityIcons name="paw" size={iconSize} color={iconColor} />;
+    }
+  };
+
+  const getTabLabel = (tab: TabName): string => {
+    switch (tab) {
+      case 'home': return 'Home';
+      case 'atividades': return 'Atividades';
+      case 'habitos': return 'Hábitos';
+      case 'loja': return 'Loja';
+      case 'pet': return 'Pet';
     }
   };
 
@@ -115,6 +140,8 @@ function AppContent() {
   }
 
   // Main app with bottom navigation
+  const tabs: TabName[] = ['home', 'atividades', 'habitos', 'loja', 'pet'];
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -122,55 +149,23 @@ function AppContent() {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => handleTabPress('home')}
-        >
-          <View style={[styles.navIconWrap, activeTab === 'home' && styles.navIconWrapActive]}>
-            <Text style={styles.navIcon}>🏠</Text>
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'home' && styles.navLabelActive]}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => handleTabPress('atividades')}
-        >
-          <View style={[styles.navIconWrap, activeTab === 'atividades' && styles.navIconWrapActive]}>
-            <Text style={styles.navIcon}>📓</Text>
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'atividades' && styles.navLabelActive]}>Atividades</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => handleTabPress('habitos')}
-        >
-          <View style={[styles.navIconWrap, activeTab === 'habitos' && styles.navIconWrapActive]}>
-            <Text style={styles.navIcon}>📋</Text>
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'habitos' && styles.navLabelActive]}>Hábitos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => handleTabPress('loja')}
-        >
-          <View style={[styles.navIconWrap, activeTab === 'loja' && styles.navIconWrapActive]}>
-            <Text style={styles.navIcon}>🛒</Text>
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'loja' && styles.navLabelActive]}>Loja</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => handleTabPress('pet')}
-        >
-          <View style={[styles.navIconWrap, activeTab === 'pet' && styles.navIconWrapActive]}>
-            <Text style={styles.navIcon}>🐾</Text>
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'pet' && styles.navLabelActive]}>Pet</Text>
-        </TouchableOpacity>
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab;
+          return (
+            <TouchableOpacity
+              key={tab}
+              style={styles.navItem}
+              onPress={() => handleTabPress(tab)}
+            >
+              <View style={[styles.navIconWrap, isActive && styles.navIconWrapActive]}>
+                {renderTabIcon(tab, isActive)}
+              </View>
+              <Text style={[styles.navLabel, isActive && styles.navLabelActive]}>
+                {getTabLabel(tab)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -187,13 +182,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   bottomNav: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 6,
-    paddingBottom: 16,
+    paddingVertical: 8,
+    paddingBottom: 20,
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',
   },
@@ -211,9 +206,6 @@ const styles = StyleSheet.create({
   },
   navIconWrapActive: {
     backgroundColor: '#E3F2FD',
-  },
-  navIcon: {
-    fontSize: 20,
   },
   navLabel: {
     fontSize: 10,

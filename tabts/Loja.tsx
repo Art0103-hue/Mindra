@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
 interface LojaItem {
@@ -96,7 +97,7 @@ export default function Loja() {
           <Text style={styles.pontosText}>{pontos} Pontos</Text>
         </View>
         <View style={styles.perfilIcon}>
-          <Text style={styles.perfilIconText}>👤</Text>
+          <Ionicons name="person" size={22} color="#4169E1" />
         </View>
       </View>
 
@@ -106,8 +107,10 @@ export default function Loja() {
       >
         {/* Promoção do dia */}
         <View style={styles.promoCard}>
-          <View style={styles.promoHeader}>
-            <Text style={styles.promoTitle}>⭐ Promoção do dia ⭐</Text>
+          <View style={styles.promoHeaderRow}>
+            <Text style={styles.promoStar}>✦</Text>
+            <Text style={styles.promoTitle}>Promoção do dia</Text>
+            <Text style={styles.promoStar}>✦</Text>
           </View>
           <View style={styles.promoItems}>
             {itensPromocao.map((item) => {
@@ -131,16 +134,13 @@ export default function Loja() {
           </View>
         </View>
 
-        {/* Itens da Loja */}
-        <Text style={styles.sectionTitle}>Itens disponíveis</Text>
+        {/* Itens da Loja - 3 in a row */}
         <View style={styles.itensGrid}>
           {itensLoja.map((item) => {
             const jaComprou = itensComprados.includes(item.id);
             return (
               <View key={item.id} style={styles.itemCard}>
-                <View style={styles.itemImageContainer}>
-                  <Image source={item.imagem} style={styles.itemImage} resizeMode="contain" />
-                </View>
+                <Image source={item.imagem} style={styles.itemImage} resizeMode="contain" />
                 <Text style={styles.itemNome}>{item.nome}</Text>
                 <TouchableOpacity
                   style={[styles.btnComprar, jaComprou && styles.btnComprado]}
@@ -163,7 +163,7 @@ export default function Loja() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
     flexDirection: 'row',
@@ -180,20 +180,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   pontosText: {
-    color: '#3A7BD5',
+    color: '#4169E1',
     fontSize: 14,
     fontWeight: 'bold',
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 10,
     width: 42,
     height: 42,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  perfilIconText: {
-    fontSize: 20,
   },
   scrollContent: {
     paddingHorizontal: 20,
@@ -207,15 +204,21 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 20,
   },
-  promoHeader: {
-    backgroundColor: '#FFD54F',
-    paddingVertical: 10,
+  promoHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 10,
+    gap: 8,
+  },
+  promoStar: {
+    fontSize: 16,
+    color: '#F9A825',
   },
   promoTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#E65100',
+    color: '#8D6E63',
   },
   promoItems: {
     flexDirection: 'row',
@@ -257,13 +260,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: 'bold',
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
   itensGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -279,16 +275,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  itemImageContainer: {
-    width: 70,
-    height: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
   itemImage: {
     width: 60,
     height: 60,
+    marginBottom: 6,
   },
   itemNome: {
     fontSize: 11,

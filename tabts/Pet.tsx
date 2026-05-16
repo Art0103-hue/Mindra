@@ -17,8 +17,8 @@ const petImages: Record<PetTipo, any> = {
 };
 
 const petMensagens: Record<PetTipo, string> = {
-  cachorro: 'Obrigado por voltar mestre, é muito bom ver você aqui... {nome} está feliz!',
-  gato: 'Miau... você voltou. {nome} sentiu sua falta (mas não vai admitir).',
+  cachorro: 'Obrigado por voltar mestre, é muito bom ver você aqui... {nome}!',
+  gato: 'Miau... você voltou. {nome} está feliz!',
   passaro: 'Piu piu! {nome} está tão feliz que você veio brincar!',
   peixe: 'Glub glub... {nome} está nadando de alegria com sua presença!',
 };
@@ -78,7 +78,6 @@ export default function Pet() {
 
         {/* Speech Bubble */}
         <View style={styles.speechBubble}>
-          <View style={styles.speechBubbleArrow} />
           <Text style={styles.speechText}>{mensagem}</Text>
         </View>
 
@@ -86,13 +85,11 @@ export default function Pet() {
         <View style={styles.statsCard}>
           {/* Afetividade */}
           <View style={styles.statRow}>
-            <View style={styles.statIconContainer}>
-              <Image
-                source={require('../assets/Assets MINDRA/Coração.png')}
-                style={styles.statIcon}
-                resizeMode="contain"
-              />
-            </View>
+            <Image
+              source={require('../assets/Assets MINDRA/Coração.png')}
+              style={styles.statIcon}
+              resizeMode="contain"
+            />
             <Text style={[styles.statLabel, { color: '#E53935' }]}>Afetividade</Text>
             <View style={styles.statBarBg}>
               <View style={[styles.statBarFill, { width: `${pet.afetividade}%`, backgroundColor: '#E53935' }]} />
@@ -102,13 +99,11 @@ export default function Pet() {
 
           {/* Felicidade */}
           <View style={styles.statRow}>
-            <View style={styles.statIconContainer}>
-              <Image
-                source={require('../assets/Assets MINDRA/Felicidade.png')}
-                style={styles.statIcon}
-                resizeMode="contain"
-              />
-            </View>
+            <Image
+              source={require('../assets/Assets MINDRA/Felicidade.png')}
+              style={styles.statIcon}
+              resizeMode="contain"
+            />
             <Text style={[styles.statLabel, { color: '#F9A825' }]}>Felicidade</Text>
             <View style={styles.statBarBg}>
               <View style={[styles.statBarFill, { width: `${pet.felicidade}%`, backgroundColor: '#F9A825' }]} />
@@ -118,13 +113,11 @@ export default function Pet() {
 
           {/* Fome */}
           <View style={styles.statRow}>
-            <View style={styles.statIconContainer}>
-              <Image
-                source={require('../assets/Assets MINDRA/Fome Colorida.png')}
-                style={styles.statIcon}
-                resizeMode="contain"
-              />
-            </View>
+            <Image
+              source={require('../assets/Assets MINDRA/Fome Colorida.png')}
+              style={styles.statIcon}
+              resizeMode="contain"
+            />
             <Text style={[styles.statLabel, { color: '#EF6C00' }]}>Fome</Text>
             <View style={styles.statBarBg}>
               <View style={[styles.statBarFill, { width: `${pet.fome}%`, backgroundColor: '#EF6C00' }]} />
@@ -176,7 +169,7 @@ export default function Pet() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#009688',
   },
   scrollContent: {
     paddingBottom: 20,
@@ -201,7 +194,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   pontosText: {
-    color: '#4CAF50',
+    color: '#009688',
     fontSize: 13,
     fontWeight: 'bold',
   },
@@ -236,7 +229,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     backgroundColor: '#FFFFFF',
     borderWidth: 3,
-    borderColor: '#1A3A6E',
+    borderColor: '#1565C0',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -252,27 +245,11 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 16,
     borderWidth: 2,
-    borderColor: '#1A3A6E',
-  },
-  speechBubbleArrow: {
-    position: 'absolute',
-    top: -10,
-    left: '50%',
-    marginLeft: -10,
-    width: 0,
-    height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderBottomWidth: 10,
-    borderStyle: 'solid',
-    backgroundColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#1A3A6E',
+    borderColor: '#1565C0',
   },
   speechText: {
     fontSize: 13,
-    color: '#1A3A6E',
+    color: '#1565C0',
     textAlign: 'center',
     lineHeight: 18,
     fontStyle: 'italic',
@@ -281,7 +258,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: '#1A3A6E',
+    borderColor: '#1565C0',
     marginHorizontal: 20,
     padding: 18,
     marginBottom: 16,
@@ -291,16 +268,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  statIconContainer: {
-    width: 28,
-    height: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 6,
-  },
   statIcon: {
     width: 24,
     height: 24,
+    marginRight: 6,
   },
   statLabel: {
     width: 85,
@@ -340,7 +311,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
-    borderColor: '#1A3A6E',
+    borderColor: '#1565C0',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 4,

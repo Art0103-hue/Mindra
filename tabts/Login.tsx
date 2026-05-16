@@ -32,7 +32,6 @@ export default function Login({ onLogin, onIrCadastro }: LoginProps) {
       Alert.alert('Atenção', 'Preencha a senha');
       return;
     }
-    // Simula login — aceita qualquer credencial
     login(email.split('@')[0] || 'Usuário', email.trim());
     onLogin();
   };
@@ -56,26 +55,22 @@ export default function Login({ onLogin, onIrCadastro }: LoginProps) {
           <Text style={styles.logoText}>MINDRA</Text>
         </View>
 
-        {/* Card de Login */}
+        {/* Card de Login - NO border */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Entrar</Text>
-
-          <Text style={styles.label}>Email:</Text>
           <TextInput
             style={styles.input}
-            placeholder="seu@email.com"
-            placeholderTextColor="#999"
+            placeholder="Email:"
+            placeholderTextColor="#666666"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
 
-          <Text style={styles.label}>Senha:</Text>
           <TextInput
             style={styles.input}
-            placeholder="••••••••"
-            placeholderTextColor="#999"
+            placeholder="Senha:"
+            placeholderTextColor="#666666"
             value={senha}
             onChangeText={setSenha}
             secureTextEntry
@@ -101,7 +96,7 @@ export default function Login({ onLogin, onIrCadastro }: LoginProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   scrollContent: {
     flexGrow: 1,
@@ -123,46 +118,31 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    letterSpacing: 6,
+    letterSpacing: 5,
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 28,
+    borderRadius: 24,
+    padding: 24,
     width: '100%',
     maxWidth: 380,
-    borderWidth: 2,
-    borderColor: '#1A3A6E',
-  },
-  cardTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1A3A6E',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 4,
-    marginLeft: 4,
   },
   input: {
-    backgroundColor: '#E0E0E0',
-    borderRadius: 12,
+    backgroundColor: '#D3D3D3',
+    borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    height: 56,
     fontSize: 15,
-    color: '#424242',
+    color: '#333333',
     marginBottom: 16,
   },
   btnEntrar: {
-    backgroundColor: '#1A3A6E',
+    backgroundColor: '#4169E1',
     borderRadius: 16,
-    paddingVertical: 16,
+    height: 56,
     alignItems: 'center',
-    marginTop: 8,
+    justifyContent: 'center',
+    marginTop: 16,
   },
   btnEntrarText: {
     color: '#FFFFFF',

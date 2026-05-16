@@ -66,45 +66,39 @@ export default function Cadastro({ onCadastrar, onIrLogin }: CadastroProps) {
           <Text style={styles.logoText}>MINDRA</Text>
         </View>
 
-        {/* Card de Cadastro */}
+        {/* Card de Cadastro - NO border */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Criar Conta</Text>
-
-          <Text style={styles.label}>Nome:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Seu nome completo"
-            placeholderTextColor="#999"
+            placeholder="Nome:"
+            placeholderTextColor="#666666"
             value={nome}
             onChangeText={setNome}
           />
 
-          <Text style={styles.label}>Email:</Text>
           <TextInput
             style={styles.input}
-            placeholder="seu@email.com"
-            placeholderTextColor="#999"
+            placeholder="Email:"
+            placeholderTextColor="#666666"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
 
-          <Text style={styles.label}>Data de nascimento:</Text>
           <TextInput
             style={styles.input}
-            placeholder="DD/MM/AAAA"
-            placeholderTextColor="#999"
+            placeholder="Data de nascimento:"
+            placeholderTextColor="#666666"
             value={dataNascimento}
             onChangeText={setDataNascimento}
             keyboardType="numeric"
           />
 
-          <Text style={styles.label}>Senha:</Text>
           <TextInput
             style={styles.input}
-            placeholder="••••••••"
-            placeholderTextColor="#999"
+            placeholder="Senha:"
+            placeholderTextColor="#666666"
             value={senha}
             onChangeText={setSenha}
             secureTextEntry
@@ -130,7 +124,7 @@ export default function Cadastro({ onCadastrar, onIrLogin }: CadastroProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   scrollContent: {
     flexGrow: 1,
@@ -156,41 +150,26 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 16,
     padding: 24,
     width: '100%',
     maxWidth: 380,
-    borderWidth: 2,
-    borderColor: '#1A3A6E',
-  },
-  cardTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1A3A6E',
-    textAlign: 'center',
-    marginBottom: 18,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 4,
-    marginLeft: 4,
   },
   input: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#D3D3D3',
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    height: 48,
     fontSize: 14,
-    color: '#424242',
+    color: '#333333',
     marginBottom: 12,
   },
   btnCadastrar: {
-    backgroundColor: '#1A3A6E',
-    borderRadius: 16,
-    paddingVertical: 16,
+    backgroundColor: '#4169E1',
+    borderRadius: 12,
+    height: 48,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 8,
   },
   btnCadastrarText: {

@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
 interface CriarHabitoProps {
@@ -52,13 +53,11 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Back arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onVoltar} style={styles.btnVoltar}>
-          <Text style={styles.btnVoltarText}>← </Text>
+          <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Novo Hábito</Text>
-        <View style={{ width: 40 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
@@ -67,46 +66,38 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
           <Text style={styles.titulo}>Novo hábito?</Text>
 
           {/* Campo: O que você está pensando? */}
-          <Text style={styles.label}>O que você está pensando?</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nome do hábito..."
-            placeholderTextColor="#999"
+            placeholder="O que você está pensando?"
+            placeholderTextColor="#666666"
             value={nome}
             onChangeText={setNome}
           />
 
           {/* Linha: Horário e Pontos */}
           <View style={styles.rowInputs}>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}>Em que horário?</Text>
-              <TextInput
-                style={[styles.input, styles.inputHalf]}
-                placeholder="HH:MM"
-                placeholderTextColor="#999"
-                value={horario}
-                onChangeText={setHorario}
-              />
-            </View>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}>Nº de pontos</Text>
-              <TextInput
-                style={[styles.input, styles.inputHalf, styles.inputDark]}
-                placeholder="0"
-                placeholderTextColor="#DDD"
-                value={pontos}
-                onChangeText={setPontos}
-                keyboardType="numeric"
-              />
-            </View>
+            <TextInput
+              style={[styles.input, styles.inputHalf]}
+              placeholder="Em que horário?"
+              placeholderTextColor="#666666"
+              value={horario}
+              onChangeText={setHorario}
+            />
+            <TextInput
+              style={[styles.input, styles.inputHalf, styles.inputDark]}
+              placeholder="Nº de pontos"
+              placeholderTextColor="#FFFFFF"
+              value={pontos}
+              onChangeText={setPontos}
+              keyboardType="numeric"
+            />
           </View>
 
           {/* Campo: Repetição */}
-          <Text style={styles.label}>Deseja repetir esse hábito por quanto tempo?</Text>
           <TextInput
             style={styles.input}
-            placeholder="Ex: 30 dias, 1 mês..."
-            placeholderTextColor="#999"
+            placeholder="Deseja repetir esse hábito por quanto tempo?"
+            placeholderTextColor="#666666"
             value={repeticao}
             onChangeText={setRepeticao}
             editable={!indefinido}
@@ -114,33 +105,28 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
 
           {/* Linha: Dia e Indefinido */}
           <View style={styles.rowInputs}>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}>definir dia:</Text>
-              <TextInput
-                style={[styles.input, styles.inputHalf]}
-                placeholder="Seg, Ter..."
-                placeholderTextColor="#999"
-                value={dia}
-                onChangeText={setDia}
-                editable={!indefinido}
-              />
-            </View>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}> </Text>
-              <TouchableOpacity
-                style={[
-                  styles.input,
-                  styles.inputHalf,
-                  styles.inputDark,
-                  indefinido && styles.inputActive,
-                ]}
-                onPress={() => setIndefinido(!indefinido)}
-              >
-                <Text style={[styles.inputDarkText, indefinido && styles.inputActiveText]}>
-                  indefinido
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <TextInput
+              style={[styles.input, styles.inputHalf]}
+              placeholder="definir dia:"
+              placeholderTextColor="#666666"
+              value={dia}
+              onChangeText={setDia}
+              editable={!indefinido}
+            />
+            <TouchableOpacity
+              style={[
+                styles.inputHalf,
+                styles.inputDark,
+                indefinido && styles.inputActive,
+                styles.indefinidoBtn,
+              ]}
+              onPress={() => setIndefinido(!indefinido)}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.indefinidoText, indefinido && styles.indefinidoTextActive]}>
+                indefinido
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -156,35 +142,22 @@ export default function CriarHabito({ onVoltar }: CriarHabitoProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 12,
+    paddingBottom: 8,
   },
   btnVoltar: {
     width: 40,
     height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnVoltarText: {
-    fontSize: 28,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    alignItems: 'flex-start',
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 4,
     paddingBottom: 30,
   },
   card: {
@@ -201,41 +174,39 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  label: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 4,
-    marginLeft: 2,
-  },
   input: {
     backgroundColor: '#E0E0E0',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 14,
-    color: '#424242',
+    color: '#333333',
     marginBottom: 12,
   },
   inputHalf: {
+    flex: 1,
     marginBottom: 0,
   },
   inputDark: {
-    backgroundColor: '#9E9E9E',
+    backgroundColor: '#A0A0A0',
     justifyContent: 'center',
-  },
-  inputDarkText: {
-    color: '#FFFFFF',
-    fontSize: 14,
   },
   inputActive: {
     backgroundColor: '#1A3A6E',
   },
-  inputActiveText: {
-    fontWeight: 'bold',
+  indefinidoBtn: {
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  inputHalfContainer: {
-    flex: 1,
+  indefinidoText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+  },
+  indefinidoTextActive: {
+    fontWeight: 'bold',
   },
   rowInputs: {
     flexDirection: 'row',

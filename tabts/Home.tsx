@@ -4,15 +4,35 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
+  TouchableOpacity,
 } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
+const getCategoryIcon = (categoria: string): React.ReactNode => {
+  const cat = categoria?.toLowerCase() || '';
+  if (cat.includes('trabalho')) {
+    return <MaterialCommunityIcons name="monitor" size={20} color="#FFFFFF" />;
+  }
+  if (cat.includes('estudo')) {
+    return <MaterialCommunityIcons name="chart-bar" size={20} color="#FFFFFF" />;
+  }
+  if (cat.includes('leitura')) {
+    return <MaterialCommunityIcons name="book-open-variant" size={20} color="#FFFFFF" />;
+  }
+  if (cat.includes('exercício') || cat.includes('exercicio')) {
+    return <MaterialCommunityIcons name="dumbbell" size={20} color="#FFFFFF" />;
+  }
+  if (cat.includes('saúde') || cat.includes('saude')) {
+    return <MaterialCommunityIcons name="heart-pulse" size={20} color="#FFFFFF" />;
+  }
+  return <MaterialCommunityIcons name="chart-bar" size={20} color="#FFFFFF" />;
+};
+
 export default function Home() {
-  const { pontos, usuario, atividades, habitos, diasSeguindoRotina } = useData();
+  const { pontos, usuario, atividades, habitos, diasSeguindoRotina, concluirHabito } = useData();
 
   const atividadesPendentes = atividades.filter(a => !a.concluida);
-  const atividadesConcluidas = atividades.filter(a => a.concluida);
   const habitosConcluidos = habitos.filter(h => h.concluidoHoje);
   const totalRotina = habitos.length;
   const concluidosRotina = habitosConcluidos.length;
@@ -24,17 +44,15 @@ export default function Home() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.pontosBadge}>
-          <Text style={styles.pontosText}>{pontos} Pontos</Text>
+        <View>
+          <Text style={styles.saudacaoText}>Olá {nomeUsuario}</Text>
+          <View style={styles.pontosBadge}>
+            <Text style={styles.pontosText}>{pontos} pontos acumulados</Text>
+          </View>
         </View>
         <View style={styles.perfilIcon}>
-          <Text style={styles.perfilIconText}>👤</Text>
+          <Ionicons name="person" size={22} color="#4169E1" />
         </View>
-      </View>
-
-      {/* Saudação */}
-      <View style={styles.saudacaoContainer}>
-        <Text style={styles.saudacaoText}>Olá {nomeUsuario}</Text>
       </View>
 
       <ScrollView
@@ -47,11 +65,18 @@ export default function Home() {
             {diasSeguindoRotina} dias seguindo a rotina, Muito bom!
           </Text>
           <View style={styles.progressBarBg}>
-            <View style={[styles.progressBarFill, { width: `${progressoRotina * 100}%` }]} />
+            <View style={[styles.progressBarFill, { width: `${Math.max(progressoRotina * 100, 0)}%` }]} />
+            {progressoRotina > 0.15 && (
+              <Text style={styles.progressTextInside}>
+                {concluidosRotina} de atividade de rotina realizadas
+              </Text>
+            )}
           </View>
-          <Text style={styles.progressLabel}>
-            {concluidosRotina} de {totalRotina} atividades de rotina realizadas
-          </Text>
+          {progressoRotina <= 0.15 && (
+            <Text style={styles.progressLabel}>
+              {concluidosRotina} de {totalRotina} atividades de rotina realizadas
+            </Text>
+          )}
         </View>
 
         {/* Card: Atividades do dia */}
@@ -64,9 +89,7 @@ export default function Home() {
               {atividadesPendentes.slice(0, 4).map((atividade) => (
                 <View key={atividade.id} style={styles.atividadeMiniCard}>
                   <View style={styles.atividadeIcon}>
-                    <Text style={styles.atividadeIconText}>
-                      {atividade.categoria?.toLowerCase().includes('trabalho') ? '💻' : '📊'}
-                    </Text>
+                    {getCategoryIcon(atividade.categoria)}
                   </View>
                   <Text style={styles.atividadeNome} numberOfLines={1}>
                     {atividade.nome}
@@ -82,22 +105,34 @@ export default function Home() {
 
         {/* Card: Hábitos de rotina */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Hábitos de rotina</Text>
+          <Text style={styles.cardTitle}>Habitos de rotina</Text>
           {habitos.length === 0 ? (
             <Text style={styles.emptyText}>Nenhum hábito cadastrado</Text>
           ) : (
             habitos.map((habito) => (
               <View key={habito.id} style={styles.habitoItem}>
-                <View style={styles.habitoCheckIcon}>
-                  <Text style={styles.habitoCheckText}>
-                    {habito.concluidoHoje ? '✓' : '○'}
-                  </Text>
-                </View>
+                <TouchableOpacity
+                  style={[
+                    styles.habitoCheckIcon,
+                    habito.concluidoHoje && styles.habitoCheckDone,
+                  ]}
+                  onPress={() => {
+                    if (!habito.concluidoHoje) {
+                      concluirHabito(habito.id);
+                    }
+                  }}
+                >
+                  <Ionicons
+                    name={habito.concluidoHoje ? 'checkmark' : 'checkmark-outline'}
+                    size={14}
+                    color={habito.concluidoHoje ? '#FFFFFF' : '#1A3A6E'}
+                  />
+                </TouchableOpacity>
                 <Text style={[styles.habitoNome, habito.concluidoHoje && styles.habitoConcluido]}>
                   {habito.nome}
                 </Text>
                 <Text style={styles.habitoHorario}>{habito.horario}</Text>
-                <Text style={styles.habitoPontos}>+{habito.pontos}pts</Text>
+                <Text style={styles.habitoPontos}>+{habito.pontos} pontos</Text>
               </View>
             ))
           )}
@@ -110,7 +145,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
     flexDirection: 'row',
@@ -118,38 +153,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 8,
-  },
-  pontosBadge: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  pontosText: {
-    color: '#3A7BD5',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  perfilIcon: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    width: 42,
-    height: 42,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  perfilIconText: {
-    fontSize: 20,
-  },
-  saudacaoContainer: {
-    paddingHorizontal: 20,
     paddingBottom: 12,
   },
   saudacaoText: {
     fontSize: 26,
     fontWeight: 'bold',
     color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  pontosBadge: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    paddingVertical: 4,
+    paddingHorizontal: 14,
+    alignSelf: 'flex-start',
+  },
+  pontosText: {
+    color: '#4169E1',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  perfilIcon: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    width: 42,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollContent: {
     paddingHorizontal: 20,
@@ -167,6 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#1A3A6E',
+    textAlign: 'center',
     marginBottom: 12,
   },
   cardTexto: {
@@ -180,12 +211,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     borderRadius: 7,
     overflow: 'hidden',
-    marginBottom: 8,
+    marginBottom: 4,
+    justifyContent: 'center',
   },
   progressBarFill: {
     height: '100%',
     backgroundColor: '#1A3A6E',
     borderRadius: 7,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
+  progressTextInside: {
+    fontSize: 8,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontWeight: '600',
   },
   progressLabel: {
     fontSize: 12,
@@ -221,9 +262,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  atividadeIconText: {
-    fontSize: 18,
-  },
   atividadeNome: {
     fontSize: 12,
     fontWeight: '600',
@@ -246,18 +284,17 @@ const styles = StyleSheet.create({
   habitoCheckIcon: {
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: 6,
     borderWidth: 2,
     borderColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
-    backgroundColor: '#F5F9FF',
+    backgroundColor: '#FFFFFF',
   },
-  habitoCheckText: {
-    fontSize: 12,
-    color: '#1A3A6E',
-    fontWeight: 'bold',
+  habitoCheckDone: {
+    backgroundColor: '#1A3A6E',
+    borderColor: '#1A3A6E',
   },
   habitoNome: {
     flex: 1,

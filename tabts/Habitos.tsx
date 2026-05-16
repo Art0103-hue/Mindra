@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
 interface HabitosProps {
@@ -23,7 +24,7 @@ export default function Habitos({ onAdicionar }: HabitosProps) {
           <Text style={styles.pontosText}>{pontos} Pontos</Text>
         </View>
         <View style={styles.perfilIcon}>
-          <Text style={styles.perfilIconText}>👤</Text>
+          <Ionicons name="person" size={22} color="#4169E1" />
         </View>
       </View>
 
@@ -40,8 +41,14 @@ export default function Habitos({ onAdicionar }: HabitosProps) {
               <Text style={styles.emptyText}>Nenhum hábito adicionado</Text>
             </View>
           ) : (
-            habitos.map((habito) => (
-              <View key={habito.id} style={styles.habitoItem}>
+            habitos.map((habito, index) => (
+              <View
+                key={habito.id}
+                style={[
+                  styles.habitoItem,
+                  index < habitos.length - 1 && styles.habitoItemBorder,
+                ]}
+              >
                 <Text style={styles.habitoNome}>{habito.nome}</Text>
                 <View style={styles.habitoDireita}>
                   <Text style={styles.habitoHorario}>{habito.horario}</Text>
@@ -49,7 +56,7 @@ export default function Habitos({ onAdicionar }: HabitosProps) {
                     style={styles.btnRemover}
                     onPress={() => removerHabito(habito.id)}
                   >
-                    <Text style={styles.btnRemoverText}>✕</Text>
+                    <Ionicons name="close" size={14} color="#FFFFFF" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -71,7 +78,7 @@ export default function Habitos({ onAdicionar }: HabitosProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
     flexDirection: 'row',
@@ -88,20 +95,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   pontosText: {
-    color: '#3A7BD5',
+    color: '#4169E1',
     fontSize: 14,
     fontWeight: 'bold',
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 10,
     width: 42,
     height: 42,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  perfilIconText: {
-    fontSize: 20,
   },
   scrollContent: {
     paddingHorizontal: 20,
@@ -134,14 +138,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 12,
+  },
+  habitoItemBorder: {
     borderBottomWidth: 1,
     borderBottomColor: '#E8F1FA',
   },
   habitoNome: {
     fontSize: 15,
     fontWeight: '500',
-    color: '#1A3A6E',
+    color: '#6B9FD4',
     flex: 1,
   },
   habitoDireita: {
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
   habitoHorario: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#6B9FD4',
+    color: '#1A3A6E',
   },
   btnRemover: {
     backgroundColor: '#FF5252',
@@ -161,11 +167,6 @@ const styles = StyleSheet.create({
     height: 26,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  btnRemoverText: {
-    color: '#FFF',
-    fontSize: 11,
-    fontWeight: 'bold',
   },
   btnAdicionar: {
     backgroundColor: '#1A3A6E',

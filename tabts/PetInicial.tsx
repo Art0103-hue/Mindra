@@ -75,49 +75,51 @@ export default function PetInicial({ onSelecionar }: PetInicialProps) {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Card principal */}
         <View style={styles.card}>
           <Text style={styles.headerText}>
             Notei que você não tem um pet ainda.
           </Text>
-          <Text style={styles.subHeaderText}>
-            Escolha seu companheiro:
-          </Text>
 
           {/* Grid de pets 2x2 */}
           <View style={styles.petGrid}>
-            {petOptions.map((option) => (
-              <TouchableOpacity
-                key={option.tipo}
-                style={[
-                  styles.petCard,
-                  petSelecionado === option.tipo && styles.petCardSelected,
-                ]}
-                onPress={() => handleSelecionarPet(option.tipo)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.petImageContainer}>
-                  <Image
-                    source={option.imagem}
-                    style={styles.petImage}
-                    resizeMode="contain"
-                  />
-                </View>
-                <Text style={styles.petNome}>{option.nome}</Text>
-                <Text style={styles.petDescricao}>{option.descricao}</Text>
-              </TouchableOpacity>
-            ))}
+            {petOptions.map((option) => {
+              const isSelected = petSelecionado === option.tipo;
+              return (
+                <TouchableOpacity
+                  key={option.tipo}
+                  style={[
+                    styles.petCard,
+                    isSelected && styles.petCardSelected,
+                  ]}
+                  onPress={() => handleSelecionarPet(option.tipo)}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.petImageContainer}>
+                    <Image
+                      source={option.imagem}
+                      style={styles.petImage}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <Text style={styles.petNome}>{option.nome}</Text>
+                  <Text style={styles.petDescricao}>{option.descricao}</Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
 
-          {/* Input de nome */}
+          {/* Nome input section */}
           {mostrarNomeInput && (
             <View style={styles.nomeContainer}>
-              <Text style={styles.nomeLabel}>Dê um nome a ele/ela:</Text>
+              <TouchableOpacity style={styles.btnNomeGreen} onPress={() => {}}>
+                <Text style={styles.btnNomeGreenText}>Dê um nome a ele/ela</Text>
+              </TouchableOpacity>
               <TextInput
                 style={styles.nomeInput}
                 placeholder="Nome do pet..."
-                placeholderTextColor="#999"
+                placeholderTextColor="#666666"
                 value={petNome}
                 onChangeText={setPetNome}
               />
@@ -144,7 +146,7 @@ export default function PetInicial({ onSelecionar }: PetInicialProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#388E3C',
   },
   scrollContent: {
     flexGrow: 1,
@@ -163,12 +165,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#1A3A6E',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  subHeaderText: {
-    fontSize: 15,
-    color: '#6B9FD4',
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -218,13 +214,19 @@ const styles = StyleSheet.create({
   nomeContainer: {
     marginTop: 8,
     marginBottom: 12,
+    alignItems: 'center',
   },
-  nomeLabel: {
+  btnNomeGreen: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    marginBottom: 10,
+  },
+  btnNomeGreenText: {
+    color: '#FFFFFF',
     fontSize: 14,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 6,
-    textAlign: 'center',
+    fontWeight: 'bold',
   },
   nomeInput: {
     backgroundColor: '#E0E0E0',
@@ -232,8 +234,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 15,
-    color: '#424242',
+    color: '#333333',
     textAlign: 'center',
+    width: '100%',
   },
   btnSelecionar: {
     backgroundColor: '#1A3A6E',

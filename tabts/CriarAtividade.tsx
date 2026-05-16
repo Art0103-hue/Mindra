@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Image,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useData } from './DataContext';
 
 interface CriarAtividadeProps {
@@ -53,13 +53,11 @@ export default function CriarAtividade({ onVoltar }: CriarAtividadeProps) {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Back arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onVoltar} style={styles.btnVoltar}>
-          <Text style={styles.btnVoltarText}>← </Text>
+          <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Nova Atividade</Text>
-        <View style={{ width: 40 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
@@ -67,47 +65,39 @@ export default function CriarAtividade({ onVoltar }: CriarAtividadeProps) {
         <View style={styles.card}>
           <Text style={styles.titulo}>Nova atividade?</Text>
 
-          {/* Campo: O que você está pensando? */}
-          <Text style={styles.label}>O que você está pensando?</Text>
+          {/* Campo: O que você está pensando? - placeholder only, no label */}
           <TextInput
             style={styles.input}
-            placeholder="Nome da atividade..."
-            placeholderTextColor="#999"
+            placeholder="O que você está pensando?"
+            placeholderTextColor="#666666"
             value={nome}
             onChangeText={setNome}
           />
 
           {/* Linha: Data e Pontos */}
           <View style={styles.rowInputs}>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}>Para que dia?</Text>
-              <TextInput
-                style={[styles.input, styles.inputHalf]}
-                placeholder="DD/MM/AAAA"
-                placeholderTextColor="#999"
-                value={data}
-                onChangeText={setData}
-              />
-            </View>
-            <View style={styles.inputHalfContainer}>
-              <Text style={styles.label}>Nº de pontos</Text>
-              <TextInput
-                style={[styles.input, styles.inputHalf, styles.inputDark]}
-                placeholder="0"
-                placeholderTextColor="#DDD"
-                value={pontos}
-                onChangeText={setPontos}
-                keyboardType="numeric"
-              />
-            </View>
+            <TextInput
+              style={[styles.input, styles.inputHalf]}
+              placeholder="Para que dia?"
+              placeholderTextColor="#666666"
+              value={data}
+              onChangeText={setData}
+            />
+            <TextInput
+              style={[styles.input, styles.inputHalf, styles.inputDark]}
+              placeholder="Nº de pontos"
+              placeholderTextColor="#FFFFFF"
+              value={pontos}
+              onChangeText={setPontos}
+              keyboardType="numeric"
+            />
           </View>
 
           {/* Campo: Categoria */}
-          <Text style={styles.label}>Em qual categoria se encontra sua atividade?</Text>
           <TextInput
             style={[styles.input, styles.inputLarge]}
-            placeholder="Trabalho, estudo..."
-            placeholderTextColor="#999"
+            placeholder="Em qual categoria se encontra sua atividade? Trabalho, estudo..."
+            placeholderTextColor="#666666"
             value={categoria}
             onChangeText={setCategoria}
             multiline
@@ -126,35 +116,22 @@ export default function CriarAtividade({ onVoltar }: CriarAtividadeProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 12,
+    paddingBottom: 8,
   },
   btnVoltar: {
     width: 40,
     height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnVoltarText: {
-    fontSize: 28,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    alignItems: 'flex-start',
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 4,
     paddingBottom: 30,
   },
   card: {
@@ -171,35 +148,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  label: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#1A3A6E',
-    marginBottom: 4,
-    marginLeft: 2,
-  },
   input: {
     backgroundColor: '#E0E0E0',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 14,
-    color: '#424242',
+    color: '#333333',
     marginBottom: 12,
   },
   inputHalf: {
+    flex: 1,
     marginBottom: 0,
   },
   inputDark: {
-    backgroundColor: '#9E9E9E',
+    backgroundColor: '#A0A0A0',
     color: '#FFFFFF',
   },
   inputLarge: {
     minHeight: 64,
     textAlignVertical: 'top',
-  },
-  inputHalfContainer: {
-    flex: 1,
   },
   rowInputs: {
     flexDirection: 'row',

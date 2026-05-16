@@ -5,36 +5,44 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useData, Atividade } from './DataContext';
 
 interface AtividadesProps {
   onAdicionar: () => void;
 }
 
+const getCategoryIcon = (categoria: string): React.ReactNode => {
+  const cat = categoria?.toLowerCase() || '';
+  if (cat.includes('trabalho')) {
+    return <MaterialCommunityIcons name="monitor" size={22} color="#FFFFFF" />;
+  }
+  if (cat.includes('estudo')) {
+    return <MaterialCommunityIcons name="chart-bar" size={22} color="#FFFFFF" />;
+  }
+  if (cat.includes('leitura')) {
+    return <MaterialCommunityIcons name="book-open-variant" size={22} color="#FFFFFF" />;
+  }
+  if (cat.includes('exercício') || cat.includes('exercicio')) {
+    return <MaterialCommunityIcons name="dumbbell" size={22} color="#FFFFFF" />;
+  }
+  if (cat.includes('saúde') || cat.includes('saude')) {
+    return <MaterialCommunityIcons name="heart-pulse" size={22} color="#FFFFFF" />;
+  }
+  return <MaterialCommunityIcons name="chart-bar" size={22} color="#FFFFFF" />;
+};
+
 export default function Atividades({ onAdicionar }: AtividadesProps) {
-  const { atividades, pontos, concluirAtividade, removerAtividade } = useData();
+  const { atividades, pontos, concluirAtividade } = useData();
 
   const atividadesPendentes = atividades.filter(a => !a.concluida);
   const atividadesConcluidas = atividades.filter(a => a.concluida);
 
-  const getCategoriaIcon = (categoria: string) => {
-    const cat = categoria?.toLowerCase() || '';
-    if (cat.includes('trabalho')) return '💻';
-    if (cat.includes('estudo')) return '📚';
-    if (cat.includes('saúde') || cat.includes('saude')) return '💪';
-    if (cat.includes('casa') || cat.includes('lar')) return '🏠';
-    if (cat.includes('exercício') || cat.includes('exercicio')) return '🏋️';
-    return '📊';
-  };
-
   const renderAtividade = (item: Atividade) => (
     <View key={item.id} style={styles.atividadeItem}>
       <View style={styles.atividadeIconSquare}>
-        <Text style={styles.atividadeIconText}>
-          {getCategoriaIcon(item.categoria)}
-        </Text>
+        {getCategoryIcon(item.categoria)}
       </View>
       <View style={styles.atividadeInfo}>
         <Text style={[styles.atividadeNome, item.concluida && styles.atividadeConcluida]}>
@@ -49,11 +57,11 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
           style={styles.btnCheck}
           onPress={() => concluirAtividade(item.id)}
         >
-          <Text style={styles.btnCheckText}>✓</Text>
+          <Ionicons name="checkmark" size={18} color="#FFFFFF" />
         </TouchableOpacity>
       ) : (
         <View style={styles.badgeConcluida}>
-          <Text style={styles.badgeConcluidaText}>✓</Text>
+          <Ionicons name="checkmark" size={18} color="#FFFFFF" />
         </View>
       )}
     </View>
@@ -67,7 +75,7 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
           <Text style={styles.pontosText}>{pontos} Pontos</Text>
         </View>
         <View style={styles.perfilIcon}>
-          <Text style={styles.perfilIconText}>👤</Text>
+          <Ionicons name="person" size={22} color="#4169E1" />
         </View>
       </View>
 
@@ -110,7 +118,7 @@ export default function Atividades({ onAdicionar }: AtividadesProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3A7BD5',
+    backgroundColor: '#4169E1',
   },
   header: {
     flexDirection: 'row',
@@ -127,20 +135,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   pontosText: {
-    color: '#3A7BD5',
+    color: '#4169E1',
     fontSize: 14,
     fontWeight: 'bold',
   },
   perfilIcon: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 10,
     width: 42,
     height: 42,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  perfilIconText: {
-    fontSize: 20,
   },
   scrollContent: {
     paddingHorizontal: 20,
@@ -185,9 +190,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
-  atividadeIconText: {
-    fontSize: 20,
-  },
   atividadeInfo: {
     flex: 1,
   },
@@ -208,30 +210,20 @@ const styles = StyleSheet.create({
   btnCheck: {
     width: 34,
     height: 34,
-    borderRadius: 17,
+    borderRadius: 8,
     backgroundColor: '#1A3A6E',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 6,
   },
-  btnCheckText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   badgeConcluida: {
     width: 34,
     height: 34,
-    borderRadius: 17,
+    borderRadius: 8,
     backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 6,
-  },
-  badgeConcluidaText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   explicativo: {
     color: '#B8D4F0',

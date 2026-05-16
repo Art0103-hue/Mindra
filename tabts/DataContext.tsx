@@ -75,14 +75,19 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [atividades, setAtividades] = useState<Atividade[]>([]);
+  const [atividades, setAtividades] = useState<Atividade[]>([
+    { id: 'a1', nome: 'Trabalhar no projeto', data: '10/03/2025', pontos: '30', categoria: 'trabalho', concluida: false },
+    { id: 'a2', nome: 'Estudar matemática', data: '10/03/2025', pontos: '25', categoria: 'estudo', concluida: false },
+    { id: 'a3', nome: 'Ler 30 páginas', data: '11/03/2025', pontos: '20', categoria: 'leitura', concluida: false },
+    { id: 'a4', nome: 'Exercício físico', data: '11/03/2025', pontos: '35', categoria: 'exercício', concluida: false },
+  ]);
   const [habitos, setHabitos] = useState<Habito[]>([
     { id: '1', nome: 'Alimentar Meus animais', horario: '5:30', pontos: '10', repeticao: '', dia: '', indefinido: true, concluidoHoje: false },
     { id: '2', nome: 'Meditar', horario: '6:00', pontos: '15', repeticao: '', dia: '', indefinido: true, concluidoHoje: false },
     { id: '3', nome: 'Ler 20 páginas', horario: '7:00', pontos: '20', repeticao: '', dia: '', indefinido: true, concluidoHoje: false },
     { id: '4', nome: 'Exercício físico', horario: '8:00', pontos: '25', repeticao: '', dia: '', indefinido: true, concluidoHoje: false },
   ]);
-  const [pontos, setPontos] = useState(0);
+  const [pontos, setPontos] = useState(150);
   const [diasSeguindoRotina, setDiasSeguindoRotina] = useState(3);
   const [itensComprados, setItensComprados] = useState<string[]>([]);
 
